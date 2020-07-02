@@ -17,7 +17,7 @@ RUN unzip $TSHOCKZIP -d /tshock && \
     # add executable perm to bootstrap
     chmod +x /tshock/bootstrap.sh
 
-FROM arm32v5/mono:latest
+FROM mono:6.8.0.96-slim
 
 # documenting ports
 EXPOSE 7777 7878
@@ -25,14 +25,17 @@ EXPOSE 7777 7878
 # env used in the bootstrap
 ENV CONFIGPATH /root/.local/share/Terraria/Worlds
 ENV LOGPATH /tshock/logs
+ENV WORLD_FILENAME "worlds_World_1.wld"
 
 # Allow for external data
 VOLUME ["/root/.local/share/Terraria/Worlds", "/tshock/logs"]
+COPY ./worlds_World_1.wld /root/.local/share/Terraria/Worlds/
 # install nuget to grab tshock dependencies
 RUN apt-get update -y && \
     apt-get install -y nuget && \
     rm -rf /var/lib/apt/lists/* /tmp/*
 
+ENV -world /root/.local/share/Terraria/Worlds/worlds_World_1.wld -autocreate <world_size_number_here>
 # copy game files
 COPY --from=base /tshock/ /tshock/
 
