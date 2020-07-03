@@ -35,7 +35,8 @@ RUN apt-get update -y && \
     apt-get install -y nuget && \
     rm -rf /var/lib/apt/lists/* /tmp/*
 
-ENV -world /root/.local/share/Terraria/Worlds/worlds_World_1.wld -autocreate <world_size_number_here>
+
+ENV -world /root/.local/share/Terraria/Worlds/worlds_World_1.wld
 # copy game files
 COPY --from=base /tshock/ /tshock/
 
