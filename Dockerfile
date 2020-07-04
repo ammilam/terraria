@@ -23,20 +23,19 @@ FROM mono:6.8.0.96-slim
 EXPOSE 7777 7878
 
 # env used in the bootstrap
-ENV CONFIGPATH /root/.local/share/Terraria/Worlds
+ENV CONFIGPATH /terraria/world
 ENV LOGPATH /tshock/logs
 ENV WORLD_FILENAME "worlds_World_1.wld"
 
 # Allow for external data
-VOLUME ["/root/.local/share/Terraria/Worlds", "/tshock/logs"]
-COPY ./worlds_World_1.wld /root/.local/share/Terraria/Worlds/
+#VOLUME ["/root/.local/share/Terraria/Worlds", "/tshock/logs"]
 # install nuget to grab tshock dependencies
 RUN apt-get update -y && \
     apt-get install -y nuget && \
     rm -rf /var/lib/apt/lists/* /tmp/*
 
 
-ENV -world /root/.local/share/Terraria/Worlds/worlds_World_1.wld
+ENV -world /terraria/world/worlds_World_1.wld
 # copy game files
 COPY --from=base /tshock/ /tshock/
 
