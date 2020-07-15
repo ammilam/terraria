@@ -25,11 +25,13 @@ EXPOSE 7777 7878
 # env used in the bootstrap
 ENV CONFIGPATH /root/.local/share/Terraria/Worlds
 ENV LOGPATH /tshock/logs
-ENV WORLD_FILENAME "worlds_World_1.wld"
 
 # Allow for external data
 VOLUME ["/root/.local/share/Terraria/Worlds", "/tshock/logs"]
 COPY ./worlds_World_1.wld /root/.local/share/Terraria/Worlds/
+ENV -world /root/.local/share/Terraria/Worlds/worlds_World_1.wld
+ENV WORLD_FILENAME "worlds_World_1.wld"
+
 # install nuget to grab tshock dependencies
 RUN apt-get update -y && \
     apt-get install -y nuget && \
@@ -37,7 +39,6 @@ RUN apt-get update -y && \
 
 
 ENV PASSWORD password
-ENV -world /root/.local/share/Terraria/Worlds/worlds_World_1.wld
 # copy game files
 COPY --from=base /tshock/ /tshock/
 
